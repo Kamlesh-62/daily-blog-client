@@ -2,7 +2,7 @@
 import React from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { InitialConfigType } from '@lexical/react/LexicalComposer';
-import ExampleTheme from './Theme/ExampleTheme';
+import FirstFoldTheme from './Theme/FirstFoldTheme';
 import Editor from './Editor/Editor';
 
 const editorConfig: InitialConfigType = {
@@ -10,7 +10,7 @@ const editorConfig: InitialConfigType = {
     onError(error: Error) {
         throw error;
     },
-    theme: ExampleTheme,
+    theme: FirstFoldTheme,
     nodes: [],
 
 };
