@@ -12,11 +12,12 @@ import {
     UNDO_COMMAND,
     SELECTION_CHANGE_COMMAND,
 } from 'lexical';
+import { createPortal } from "react-dom";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { mergeRegister } from '@lexical/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faStrikethrough, faUnderline, faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons'
-
+import BlockOptionsDropdownList from "./BlockOptionsDropdownList/BlockOptionsDropdownList";
 
 const Toolbar = () => {
     const [editor] = useLexicalComposerContext();
@@ -27,8 +28,21 @@ const Toolbar = () => {
     const [isCode, setIsCode] = useState(false);
     const [canUndo, setCanUndo] = useState(false);
     const [canRedo, setCanRedo] = useState(false);
+    const [blockType, setBlockType] = useState("paragraph");
+    const [selectedElementKey, setSelectedElementKey] = useState(null);
+    const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] = useState(false);
 
     const LowPriority = 1;
+
+    const supportedBlockTypes = new Set([
+        "paragraph",
+        "quote",
+        "code",
+        "h1",
+        "h2",
+        "ul",
+        "ol"
+    ]);
 
     const updateToolbar = useCallback(() => {
         const selection = $getSelection();
@@ -42,7 +56,7 @@ const Toolbar = () => {
         }
     }, [editor]);
 
-    
+
     useEffect(() => {
         return mergeRegister(
             editor.registerUpdateListener(({ editorState }) => {
@@ -79,6 +93,15 @@ const Toolbar = () => {
 
     return (
         <div className="fixed z-20 shadow bottom-8 left-1/2 transform -translate-x-1/2 min-w-52 h-10 px-2 py-2 mb-4 space-x-2 flex items-center">
+            {supportedBlockTypes.has(blockType) && (
+                <BlockOptionsDropdownList
+
+                    editor={editor}
+                    blockType={blockType}
+                    toolbarRef={null}
+                    setShowBlockOptionsDropDown={setShowBlockOptionsDropDown}
+                />
+            )}
             <div onClick={() => {
                 canUndo && editor.dispatchCommand(UNDO_COMMAND, undefined);
             }} className={canUndo ? 'text-black bold bg-gray-200 px-2 py-1 rounded' : 'text-gray-800 px-2 py-1 rounded '}>

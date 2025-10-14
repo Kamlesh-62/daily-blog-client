@@ -8,19 +8,14 @@ import {
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
-  REMOVE_LIST_COMMAND,
-  $isListNode,
-  ListNode
+  REMOVE_LIST_COMMAND
 } from "@lexical/list";
 
 import {
   $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode
+  $createQuoteNode
 } from "@lexical/rich-text";
 import { $createCodeNode } from "@lexical/code";
-import { $isCodeNode } from "@lexical/code";
-import { $createListItemNode, $isListItemNode } from "@lexical/list";
 
 type Props = {
     editor: any;
@@ -129,7 +124,6 @@ const BlockOptionsDropdownList = ({
         if (blockType !== "quote") {
             editor.update(() => {
                 const selection = $getSelection();
-
                 if ($isRangeSelection(selection)) {
                     $wrapNodes(selection, () => $createQuoteNode());
                 }
