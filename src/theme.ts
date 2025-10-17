@@ -23,10 +23,10 @@ export const theme = createTheme({
       styleOverrides: {
         body: {
           margin: 0,
-          backgroundImage: `linear-gradient(
-          rgba(255, 255, 255, 0.7),
-          rgba(255, 255, 255, 0.7)
-          ), url(${bg.src})`,
+          // backgroundImage: `linear-gradient(
+          // rgba(255, 255, 255, 0.7),
+          // rgba(255, 255, 255, 0.7)
+          // ), url(${bg.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

@@ -1,30 +1,13 @@
-
 import { JSX } from 'react';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import './ContentEditable.css';
 
-type Props = {
-    placeholder: string;
-};
+export default function LexicalContentEditable(): JSX.Element {
 
-export default function LexicalContentEditable({
-    placeholder,
-}: Props): JSX.Element {
     return (
-        <div className="ContentEditable-container">
+        <div className="relative">
             <ContentEditable
-                className="ContentEditable-root"
-                aria-placeholder={placeholder}
-                placeholder={
-                    <div className="ContentEditable-placeholder">
-                        {placeholder}
-                    </div>
-                }
+                className={`text-[16px] text-[#333] font-[400] leading-[1.5] max-[1025px]:text-[14px] max-[1025px]:leading-[1.4] focus:outline-none `}
             />
-            <HistoryPlugin />
-            <AutoFocusPlugin />
         </div>
     );
 }

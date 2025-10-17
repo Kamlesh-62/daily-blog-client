@@ -21,7 +21,7 @@ export default {
   },
   paragraph: "leading-7 my-2",
   placeholder: "pointer-events-none text-gray-400",
-  quote: "border-l-4 border-gray-300 pl-3 italic text-gray-700 my-3",
+  quote: "border-l-4 border-gray-300 pl-3 italic text-gray-700 my-3",// 
   text: {
     bold: "font-bold",
     code: "font-mono text-[0.9em] rounded px-1 bg-black/5",

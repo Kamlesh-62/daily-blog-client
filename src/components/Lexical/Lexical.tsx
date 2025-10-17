@@ -1,18 +1,47 @@
-
+// DailyBlogRichTextEditor.tsx
+'use client';
 import React from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { InitialConfigType } from '@lexical/react/LexicalComposer';
-import FirstFoldTheme from './Theme/FirstFoldTheme';
 import Editor from './Editor/Editor';
+
+// Import all necessary nodes
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { ListNode, ListItemNode } from '@lexical/list';
+import { CodeNode, CodeHighlightNode } from '@lexical/code';
+import { ParagraphNode, TextNode, $getRoot, $isParagraphNode } from 'lexical';
+
+// Import your custom components and plugins
+import FirstFoldTheme from './Theme/FirstFoldTheme';
 
 const editorConfig: InitialConfigType = {
     namespace: 'DailyBlogRichTextEditor',
-    onError(error: Error) {
-        throw error;
-    },
     theme: FirstFoldTheme,
-    nodes: [],
-
+    onError: (error: Error) => console.error(error),
+    nodes: [
+        {
+            replace: ParagraphNode,
+            with: (node: ParagraphNode) => {
+                return new ParagraphNode();
+            },
+        },
+        HeadingNode,
+        ParagraphNode,
+        TextNode,
+        QuoteNode,
+        ListNode,
+        ListItemNode,
+        CodeNode,
+        CodeHighlightNode,
+    ],
+    editorState: () => {
+        const root = $getRoot();
+        const heading = new HeadingNode('h2');
+        heading.append(new TextNode('')); 
+        const paragraph = new ParagraphNode();
+        paragraph.append(new TextNode(''));
+        root.append(heading, paragraph);
+    },
 };
 
 const DailyBlogRichTextEditor = () => {
