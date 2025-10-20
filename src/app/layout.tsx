@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" >
-      <body>
+      <body suppressHydrationWarning>
         <AppRouterCacheProvider options={{ key: "mui", prepend: true, enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />

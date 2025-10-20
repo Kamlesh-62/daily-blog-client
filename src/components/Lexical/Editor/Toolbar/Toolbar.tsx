@@ -4,11 +4,6 @@ import {
     $getSelection,
     $isRangeSelection,
     FORMAT_TEXT_COMMAND,
-    REDO_COMMAND,
-    CAN_REDO_COMMAND,
-    CAN_UNDO_COMMAND,
-    UNDO_COMMAND,
-    SELECTION_CHANGE_COMMAND,
     TextFormatType,
 } from 'lexical';
 import { CLEAR_ALL_COMMAND } from '../Plugin/ClearAllPlugin';
@@ -17,16 +12,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faStrikethrough, faUnderline, faCode } from '@fortawesome/free-solid-svg-icons'
 
 const Toolbar = () => {
+    
     const [editor] = useLexicalComposerContext();
-    const [isBold, setIsBold] = useState(false);
-    const [isItalic, setIsItalic] = useState(false);
-    const [isStrikethrough, setIsStrikethrough] = useState(false);
-    const [isUnderline, setIsUnderline] = useState(false);
-    const [isCode, setIsCode] = useState(false);
 
+    // State to track toolbar state
+    const [isBold, setIsBold] = useState<boolean>(false);
+    const [isItalic, setIsItalic] = useState<boolean>(false);
+    const [isStrikethrough, setIsStrikethrough] = useState<boolean>(false);
+    const [isUnderline, setIsUnderline] = useState<boolean>(false);
+    const [isCode, setIsCode] = useState<boolean>(false);
+
+    // Function to update toolbar state
     const updateToolbar = useCallback(() => {
         const selection = $getSelection();
-
         if ($isRangeSelection(selection)) {
             setIsBold(selection.hasFormat('bold'));
             setIsItalic(selection.hasFormat('italic'));
@@ -36,6 +34,7 @@ const Toolbar = () => {
         }
     }, []);
 
+    // Update the toolbar when selection changes
     useEffect(() => {
         return mergeRegister(
             editor.registerUpdateListener(({ editorState }) => {
@@ -46,6 +45,7 @@ const Toolbar = () => {
         );
     }, [updateToolbar, editor]);
 
+    // Function to handle code click
     const handleCodeClick = () => {
         if (isBold) editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
         if (isItalic) editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
@@ -56,6 +56,7 @@ const Toolbar = () => {
         editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
     };
 
+    // Function to handle format click
     const handleFormatClick = (format: TextFormatType) => {
         if (isCode) {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');

@@ -122,31 +122,30 @@ export default function SelectionToolbarPlugin(): JSX.Element | null {
 
     // Right-click to show toolbar at cursor if there is a non-empty selection
     useEffect(() => {
-        const rootEl = editor.getRootElement();
-        if (!rootEl) return;
-
-        const onContextMenu = (e: MouseEvent) => {
-            const sel = window.getSelection();
-            const hasRange = sel && sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed;
-            if (!hasRange) return;
-            e.preventDefault();
-            setVisible(true);
-            requestAnimationFrame(() => positionPopupAt(e.clientX + window.scrollX, e.clientY + window.scrollY));
+        const onMouseDown = (e: MouseEvent) => {
+            // If clicking on popup itself, don't hide
+            if (popupRef.current && popupRef.current.contains(e.target as Node)) {
+                return;
+            }
+            // Only hide on left click (button 0)
+            if (e.button === 0) {
+                setVisible(false);
+            }
         };
 
-        rootEl.addEventListener('contextmenu', onContextMenu);
-        return () => rootEl.removeEventListener('contextmenu', onContextMenu);
-    }, [editor, positionPopupAt]);
-
-    // Click outside hides the popup
-    useEffect(() => {
-        const onDocClick = (e: MouseEvent) => {
-            const el = popupRef.current;
-            if (!el) return;
-            if (e.target instanceof Node && !el.contains(e.target)) setVisible(false);
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                setVisible(false);
+            }
         };
-        document.addEventListener('mousedown', onDocClick);
-        return () => document.removeEventListener('mousedown', onDocClick);
+
+        document.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            document.removeEventListener('mousedown', onMouseDown);
+            document.removeEventListener('keydown', onKeyDown);
+        };
     }, []);
 
     // Register command handlers

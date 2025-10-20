@@ -1,15 +1,16 @@
 // DailyBlogRichTextEditor.tsx
 'use client';
 import React from 'react';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { InitialConfigType } from '@lexical/react/LexicalComposer';
-import Editor from './Editor/Editor';
+
 
 // Import all necessary nodes
+import Editor from './Editor/Editor';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { InitialConfigType } from '@lexical/react/LexicalComposer';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { ListNode, ListItemNode } from '@lexical/list';
 import { CodeNode, CodeHighlightNode } from '@lexical/code';
-import { ParagraphNode, TextNode, $getRoot, $isParagraphNode } from 'lexical';
+import { ParagraphNode, TextNode, $getRoot } from 'lexical';
 
 // Import your custom components and plugins
 import FirstFoldTheme from './Theme/FirstFoldTheme';
